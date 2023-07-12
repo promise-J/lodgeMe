@@ -1,13 +1,24 @@
-import './App.css'
-import Layout from './layout/Layout'
+import "./App.css";
+import LayoutPage from "./pages/Layout";
+import Notfound from "./pages/Notfound";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 function App() {
+  const router = createBrowserRouter([
+    {
+        path: '/',
+        element: <LayoutPage />,
+    },
+    {
+        path: '*',
+        element: <Notfound />
+    }
+])
+
 
   return (
-    <Layout>
-      <h1>Promise</h1>
-    </Layout>
-  )
+   <RouterProvider router={router} />
+  );
 }
 
-export default App
+export default App;

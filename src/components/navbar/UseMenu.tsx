@@ -4,21 +4,33 @@ import { AiOutlineMenu } from "react-icons/ai";
 import Avatar from "../Avatar";
 import MenuItem from "./MenuItem";
 import useRegisterModal from "../../hooks/useRegisterModal";
+import useLoginModal from "../../hooks/useLoginModal";
+import useMenuHook from "../../hooks/useMenuModal";
+import useRentalHook from "../../hooks/useRentalModal";
 
 const UseMenu = () => {
-    const [isOpen, setIsOpen] = useState(false)
+    // const [isOpen, setIsOpen] = useState(false)
+    const useMenu = useMenuHook()
     const registerModal = useRegisterModal()
+    const loginModal = useLoginModal()
+    const rentalModal = useRentalHook()
 
-    const toggleOpen = useCallback(()=>{
-        setIsOpen((value)=> !value)
-    }, [])
+    const toggleOpen = ()=>{
+      useMenu.onOpen()
+      if(useMenu.isOpen){
+        useMenu.onClose()
+      }else{
+        useMenu.onOpen()
+      }
+    }
+
 
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
         <div
           className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
-        //   onClick={() => {}}
+          onClick={() => rentalModal.onOpen()}
         >
           Airbnb your home
         </div>
@@ -33,11 +45,11 @@ const UseMenu = () => {
         </div>
       </div>
       {
-        isOpen && (
+        useMenu.isOpen && (
             <div className="absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
                 <div className="flex flex-col cursor-pointer">
                     <>
-                      <MenuItem onClick={registerModal.onOpen} label="Login" />
+                      <MenuItem onClick={loginModal.onOpen} label="Login" />
                       <MenuItem onClick={registerModal.onOpen} label="Sign up" />
                     </>
                 </div>

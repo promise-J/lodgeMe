@@ -4,7 +4,8 @@ import ClientOnly from "../components/ClientOnly"
 import RegisterModal from "../components/modals/RegisterModal"
 import Navbar from "../components/navbar/Navbar"
 import ToasterProvider from "../providers/ToasterProvider"
-import Slider from '../components/Slider'
+import LoginModal from "../components/modals/LoginModal"
+import RentalModal from "../components/modals/RentalModal"
 
 interface LayoutProps {
     children: React.ReactNode
@@ -12,13 +13,14 @@ interface LayoutProps {
 
 const Layout = ({children} : LayoutProps) => {
   return (
-    <div>
+    <div className="">
          <ClientOnly>
           <ToasterProvider />
           <RegisterModal />
+          <LoginModal />
+          <RentalModal />
           <Navbar />
         </ClientOnly>
-        <Slider />
         {children}
     </div>
   )

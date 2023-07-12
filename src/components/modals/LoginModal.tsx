@@ -3,18 +3,18 @@ import axios from "axios";
 import { AiFillGithub } from "react-icons/ai";
 import {FcGoogle} from 'react-icons/fc'
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import useRegisterModal from "../../hooks/useRegisterModal";
+import useLoginModal from "../../hooks/useLoginModal";
 import {toast} from 'react-hot-toast'
 import Modal from "./Modal";
 import Heading from "../Heading";
 import Input from "../inputs/Input";
 import Button from "../Button";
-import useLoginModal from "../../hooks/useLoginModal";
+import useRegisterModal from "../../hooks/useRegisterModal";
 import useMenuHook from "../../hooks/useMenuModal";
 
-const RegisterModal = () => {
-  const registerModal = useRegisterModal();
-  const loginModal = useLoginModal()
+const LoginModal = () => {
+  const loginModal = useLoginModal();
+  const registerModal = useRegisterModal()
   const useMenu = useMenuHook()
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -34,7 +34,7 @@ const RegisterModal = () => {
     axios
       .post("/api/register", data)
       .then(() => {
-        registerModal.onClose();
+        loginModal.onClose();
       })
       .catch((error) => {
         console.log(error)
@@ -46,16 +46,15 @@ const RegisterModal = () => {
   };
 
   const handleSwitch = ()=>{
-    registerModal.onClose()
-    loginModal.onOpen()
+    loginModal.onClose()
+    registerModal.onOpen()
     useMenu.onClose()
   }
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-        <Heading title="Welcome To Airbnb" subtite="Create an account" />
+        <Heading title="Welcome To Airbnb" subtite="Welcome back" />
         <Input id="email" label="Email" disabled={isLoading} register={register} errors={errors} required />
-        <Input id="name" label="Name" disabled={isLoading} register={register} errors={errors} required />
         <Input id="password" type="password" label="Password" disabled={isLoading} register={register} errors={errors} required />
     </div>
   )
@@ -67,8 +66,8 @@ const RegisterModal = () => {
       <Button outline label="Continue with GitHub" icon={AiFillGithub} onClick={()=> console.log('man')} />
       <div className="text-neutral-500 text-center mt-4 footer-light">
         <div className="justify-center flex flex-row items-center gap-2">
-          <div>Already have an account</div>
-          <div className="text-neutral-800 cursor-pointer hover:underline" onClick={handleSwitch}>Log in</div>
+          <div>Don't have an account</div>
+          <div className="text-neutral-800 cursor-pointer hover:underline" onClick={handleSwitch}>Register</div>
         </div>
       </div>
     </div>
@@ -77,10 +76,10 @@ const RegisterModal = () => {
   return (
     <Modal
       disabled={isLoading}
-      isOpen={registerModal.isOpen}
-      title="Register"
+      isOpen={loginModal.isOpen}
+      title="Login"
       actionLabel="Continue"
-      onClose={()=> {registerModal.onClose(); useMenu.onClose()}}
+      onClose={()=> {loginModal.onClose(); useMenu.onClose();}}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}
@@ -88,4 +87,4 @@ const RegisterModal = () => {
   );
 };
 
-export default RegisterModal;
+export default LoginModal;
